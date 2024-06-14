@@ -1,15 +1,28 @@
 from .base import *
+import environ # type: ignore
+
+env = environ.Env(
+    DEBUG=(bool, True)
+)
+
+env.read_env(str(ROOT_DIR / ".env")) # type: ignore
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-%iu_%9n1dwt#r^$ubs93-8rhdfl&k36x0v8+_7ci-b82aq!ian"
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: define the correct hosts in production!
 ALLOWED_HOSTS = ["*"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# DATABASES
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#databases
+DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
 try:
