@@ -5,7 +5,7 @@ env = environ.Env(
     DEBUG=(bool, True)
 )
 
-env.read_env(str(ROOT_DIR / ".env")) # type: ignore
+environ.Env.read_env(os.path.join(BASE_DIR, '.env')) # type: ignore
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
